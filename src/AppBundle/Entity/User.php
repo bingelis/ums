@@ -2,12 +2,14 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * User
  *
- * @ORM\Table(name="user")
+ * @ORM\Table(name="users")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
  */
 class User
@@ -28,13 +30,29 @@ class User
      */
     private $name;
 
+    /**
+     * @var Collection
+     *
+     * @ORM\ManyToMany(targetEntity="Usergroup", inversedBy="users")
+     * @ORM\JoinTable(name="users_usergroups")
+     */
+    private $usergroups;
+
+    /**
+     * User constructor.
+     */
+    public function __construct()
+    {
+        $this->usergroups = new ArrayCollection();
+    }
+
 
     /**
      * Get id
      *
      * @return int
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
@@ -46,7 +64,7 @@ class User
      *
      * @return User
      */
-    public function setName($name)
+    public function setName(string $name): User
     {
         $this->name = $name;
 
@@ -58,9 +76,29 @@ class User
      *
      * @return string
      */
-    public function getName()
+    public function getName(): ?string
     {
         return $this->name;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getUsergroups(): Collection
+    {
+        return $this->usergroups;
+    }
+
+    /**
+     * @param Usergroup $usergroup
+     * 
+     * @return User
+     */
+    public function addUsergroup(Usergroup $usergroup): User
+    {
+        $this->usergroups->add($usergroup);
+        
+        return $this;
     }
 }
 

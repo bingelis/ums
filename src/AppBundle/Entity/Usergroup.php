@@ -2,12 +2,14 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Usergroup
  *
- * @ORM\Table(name="usergroup")
+ * @ORM\Table(name="usergroups")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\UsergroupRepository")
  */
 class Usergroup
@@ -28,13 +30,27 @@ class Usergroup
      */
     private $title;
 
+    /**
+     * @var Collection
+     *
+     * @ORM\ManyToMany(targetEntity="User", mappedBy="usergroups")
+     */
+    private $users;
+
+    /**
+     * Usergroup constructor.
+     */
+    public function __construct()
+    {
+        $this->users = new ArrayCollection();
+    }
 
     /**
      * Get id
      *
      * @return int
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
@@ -46,7 +62,7 @@ class Usergroup
      *
      * @return Usergroup
      */
-    public function setTitle($title)
+    public function setTitle(string $title): Usergroup
     {
         $this->title = $title;
 
@@ -58,9 +74,30 @@ class Usergroup
      *
      * @return string
      */
-    public function getTitle()
+    public function getTitle(): ?string
     {
         return $this->title;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    /**
+     * @param User $user
+     *
+     * @return Usergroup
+     */
+    public function addUser(User $user): Usergroup
+    {
+        $user->addUsergroup($this);
+        $this->users->add($user);
+        
+        return $this;
     }
 }
 
