@@ -94,8 +94,10 @@ class Usergroup
      */
     public function addUser(User $user): Usergroup
     {
-        $user->addUsergroup($this);
-        $this->users->add($user);
+        if (!$this->users->contains($user)) {
+            $user->addUsergroup($this);
+            $this->users->add($user);
+        }
         
         return $this;
     }

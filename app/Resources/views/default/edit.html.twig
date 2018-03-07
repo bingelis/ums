@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% form_theme edit_form 'bootstrap_3_layout.html.twig' %}
+
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3 col-xs-12">
+            <h1>{{ title }}</h1>
+            {{ form(edit_form) }}
+            <a class="btn btn-default" href="{{ path('homepage') }}">Go back</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

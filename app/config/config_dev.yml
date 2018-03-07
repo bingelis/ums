@@ -10,6 +10,7 @@ framework:
 web_profiler:
     toolbar: true
     intercept_redirects: false
+    excluded_ajax_paths: '.*' # <= This disable the ajax logging https://github.com/symfony/symfony/issues/26364
 
 monolog:
     handlers:
