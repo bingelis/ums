@@ -100,5 +100,20 @@ class User
         
         return $this;
     }
-}
 
+    /**
+     * @param Usergroup $usergroup
+     */
+    public function removeUsergroup(Usergroup $usergroup): void
+    {
+        $this->usergroups->removeElement($usergroup);
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->name;
+    }
+}
